@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import { YouTubeMetadata } from "./youtube-metadata";
 import { TikTokMetadata } from "./tiktok-metadata";
 import { InstagramMetadata } from "./instagram-metadata";
-import { postVideo } from "@/app/api/post/route";
 
 interface PlatformMetadataProps<T> {
   metadata: T;
@@ -38,7 +37,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
     tiktok: { caption: "", hashtags: "" },
     instagram: { caption: "", hashtags: "" },
   });
-  const [isPending, startTransition] = useTransition();
+  const [posting, setPosting] = useState(false);
 
   const togglePlatform = (platform: keyof typeof enabledPlatforms) => {
     setEnabledPlatforms((prev) => ({ ...prev, [platform]: !prev[platform] }));
@@ -61,31 +60,36 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("Current metadata state:", metadata); // Debug log
+  const handleSubmit = async () => {
+    console.log("Button clicked.")
+    setPosting(true)
 
-    const metadataToSubmit = Object.entries(enabledPlatforms).reduce(
-      (acc, [platform, isEnabled]) => {
-        if (isEnabled) {
-          // Ensure we're getting the correct platform data
-          const platformData = metadata[platform as keyof typeof metadata];
-          acc[platform] = platformData;
-          console.log(`Submitting ${platform}:`, platformData); // Debug log
-        }
-        return acc;
-      },
-      {} as Record<string, unknown>
-    );
+    const body = {
+      video_url: videoUrl,
+      metadata: metadata
+    }
 
-    startTransition(() => {
-      postVideo(videoUrl, metadataToSubmit)
-        .then((result) => {
-          console.log("Success:", result.message);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
+    try {
+      const response = await fetch('/api/post', {
+        method: 'POST',
+        body: JSON.stringify(body),
+      });
+      ['video_url', 'title', 'access_token', 'refresh_token', 'social_media']
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log(data)
+
+      setPosting(false);
+    } catch (error) {
+      console.error('Error uploading video:', error);
+
+      setPosting(false);
+    }
+
   };
 
   const platforms: Array<{
@@ -156,9 +160,9 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
       </Accordion>
       <Button
         onClick={handleSubmit}
-        disabled={isPending || Object.values(enabledPlatforms).every((v) => !v)}
+        disabled={posting || Object.values(enabledPlatforms).every((v) => !v)}
       >
-        {isPending ? "Submitting..." : "Submit Metadata"}
+        {posting ? "Submitting..." : "Submit Metadata"}
       </Button>
     </div>
   );

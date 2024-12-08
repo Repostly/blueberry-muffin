@@ -2,12 +2,12 @@ import { VideoUploadForm } from "../components/video-upload-form";
 import { VideoPlayer } from "../components/video-player";
 import { MetadataSection } from "../components/metadata-section";
 
-export default function Dashboard({
+export default async function Dashboard({
   searchParams,
 }: {
   searchParams: { videoUrl?: string };
 }) {
-  const { videoUrl } = searchParams || "";
+  const { videoUrl } = await searchParams;
 
   return (
     <div className="container mx-auto py-8">
