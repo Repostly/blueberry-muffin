@@ -58,8 +58,13 @@ export function Header() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuItem>
-                                <User className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
+                                <Link
+                                    className="flex flex-row justify-center items-center"
+                                    href="/connect"
+                                >
+                                    <User className="mr-2 h-4 w-4" />
+                                    <h1>Connect</h1>
+                                </Link> 
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
                                 <span className="text-sm text-white font-medium bg-black hover:bg-gray-700 transition-colors duration-300 rounded-xl px-3 py-1">

@@ -1,4 +1,5 @@
 import { Loader2, LogIn } from 'lucide-react'
+import { Music2, Instagram, Youtube, Twitter, Facebook } from 'lucide-react';
 
 export const Icons = {
   spinner: Loader2,
@@ -23,5 +24,10 @@ export const Icons = {
       <path d="M1 1h22v22H1z" fill="none" />
     </svg>
   ),
+  tiktok: Music2,
+  youtube: Youtube,
+  twitter: Twitter,
+  facebook: Facebook,
+  instagram: Instagram
 }
 
