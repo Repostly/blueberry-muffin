@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import AWS from 'aws-sdk';
+import connectDB from '@/db/connect';
+import User from '@/models/User';
+import { getSession } from '@/auth/session';
 
 type Data = {
   success: boolean;
@@ -54,6 +57,24 @@ export async function POST(request: NextRequest) {
       instagram: process.env.INSTAGRAM_UPLOAD_LAMBDA_FUNCTION,
     };
 
+    // Get session
+    const session = await getSession()
+    if (!session || !session.user || !session.user.email) {
+      throw new Error('User not authenticated');
+    }
+
+    // Connect to the database
+    await connectDB();
+
+    // Retrieve user data from MongoDB
+    const user = await User.findOne({ email: session.user.email })
+    if (!user) {
+      return NextResponse.json({
+        success: false,
+        message: 'User not found',
+      }, { status: 404 });
+    }
+
     // Collect results for each invocation
     const results = [];
 
@@ -71,10 +92,22 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
+      // Get the platform-specific access token and refresh token from the user object in MongoDB
+      const platformData = user.providers?.get(platform as SocialMediaPlatform);
+  
+      if (!platformData || !platformData.accessToken) {
+        results.push({ platform, success: false, message: `No access token found for ${platform}` });
+        continue;
+      }
+
+      const { accessToken, refreshToken } = platformData;
+
       // Prepare payload for Lambda invocation
       const payload = {
         video_url,
         ...meta,
+        access_token: accessToken,  // Attach the access token
+        refresh_token: refreshToken, // Attach the refresh token if it exists
       };
 
       // Invoke the Lambda function
