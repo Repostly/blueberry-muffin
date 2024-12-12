@@ -94,7 +94,7 @@ export default function ConnectPage() {
   
     if (account.connected) {
       try {
-        const response = await fetch(`/api/disconnect/${id}`, { method: 'POST' });
+        const response = await fetch(`/api/user/connections/${id}`, { method: 'DELETE' });
         if (!response.ok) throw new Error('Failed to disconnect');
   
         setAccounts(prevAccounts => 
@@ -102,7 +102,7 @@ export default function ConnectPage() {
         );
         toast({
           title: "Disconnected",
-          description: `Successfully disconnected from ${account.name}`,
+          description: `Successfully disconnected ${id} from ${account.name}`,
         });
       } catch (error) {
         console.error('Error disconnecting:', error);
