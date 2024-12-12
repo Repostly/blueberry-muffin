@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { providers } from '@/lib/providers'
 import { storeTokens } from '@/lib/token-storage'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/auth/options'
+import { getSession } from '@/auth/session';
 
 export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {
   // Ensure params are awaited
@@ -53,7 +52,7 @@ export async function GET(request: NextRequest, { params }: { params: { provider
     }
 
     // Get the user session
-    const session = await getServerSession(authOptions)
+    const session = await getSession()
     if (!session || !session.user || !session.user.email) {
       throw new Error('User not authenticated');
     }
