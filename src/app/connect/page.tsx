@@ -44,6 +44,27 @@ export default function ConnectPage() {
   ])
 
   useEffect(() => {
+    const fetchConnections = async () => {
+      try {
+        const response = await fetch('/api/user/connections')
+        if (response.ok) {
+          const connections = await response.json()
+          setAccounts(prevAccounts => 
+            prevAccounts.map(account => ({
+              ...account,
+              connected: !!connections[account.id]
+            }))
+          )
+        }
+      } catch (error) {
+        console.error('Error fetching connections:', error)
+      }
+    }
+
+    fetchConnections()
+  }, [])
+
+  useEffect(() => {
     const success = searchParams.get('success');
     const error = searchParams.get('error');
     const provider = searchParams.get('provider');
