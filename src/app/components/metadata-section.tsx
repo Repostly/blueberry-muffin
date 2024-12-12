@@ -74,7 +74,6 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
         method: 'POST',
         body: JSON.stringify(body),
       });
-      ['video_url', 'title', 'access_token', 'refresh_token', 'social_media']
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
