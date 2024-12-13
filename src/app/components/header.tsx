@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from 'next/link';
 import Image from 'next/image';
@@ -14,6 +15,16 @@ import {
 
 export function Header() {
     const { data: session, status } = useSession();
+    const [profileImage, setProfileImage] = useState('/placeholder.svg');
+
+    useEffect(() => {
+        if (session?.user?.image) {
+          setProfileImage(session.user.image);
+          console.log(session.user.image)
+        } else {
+          setProfileImage('/placeholder.svg'); // Default image
+        }
+      }, [session]);
 
     return (
         <header className="px-4 lg:px-6 h-14 flex items-center">
@@ -48,9 +59,10 @@ export function Header() {
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                                 <Image
-                                    src={session?.user?.image || '/placeholder.svg'}
+                                    src={profileImage}
                                     alt="Profile"
                                     className="rounded-full"
+                                    unoptimized
                                     width={32}
                                     height={32}
                                 />
