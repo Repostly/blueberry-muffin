@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
 
   const handleGoogleLogin = async () => {
     setIsLoading(true)
