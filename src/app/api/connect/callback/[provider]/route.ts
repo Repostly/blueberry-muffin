@@ -36,7 +36,7 @@ export async function GET(request: NextRequest, { params }: { params: { provider
         code,
         client_id: providerConfig.clientId,
         client_secret: providerConfig.clientSecret,
-        redirect_uri: `${process.env.NEXTAUTH_URL}/api/auth/callback/${providerConfig.id}`,
+        redirect_uri: `${process.env.NEXTAUTH_URL}/api/connect/callback/${providerConfig.id}`,
         grant_type: 'authorization_code',
       }),
     })
