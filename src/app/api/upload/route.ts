@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import AWS from 'aws-sdk';
 
 AWS.config.update({
@@ -39,7 +39,7 @@ async function uploadFileToS3(file: File, fileName: string) {
 }
 
 
-export async function POST(request: NextResponse) {
+export async function POST(request: NextRequest) {
 
   try {
 
