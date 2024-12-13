@@ -126,7 +126,7 @@ export default function ConnectPage() {
         }
       });
   
-      authUrlObject.searchParams.append('redirect_uri', `${window.location.origin}/api/auth/callback/${id}`);
+      authUrlObject.searchParams.append('redirect_uri', `${window.location.origin}/api/connect/callback/${id}`);
       authUrlObject.searchParams.append('response_type', 'code');
   
       router.push(authUrlObject.toString());
