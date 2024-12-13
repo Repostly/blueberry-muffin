@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { YouTubeMetadata } from "./youtube-metadata";
 import { TikTokMetadata } from "./tiktok-metadata";
 import { InstagramMetadata } from "./instagram-metadata";
+import { useToast } from "@/hooks/use-toast";
 
 interface PlatformMetadataProps<T> {
   metadata: T;
@@ -38,6 +39,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
     instagram: { caption: "", hashtags: "" },
   });
   const [posting, setPosting] = useState(false);
+  const { toast } = useToast();
 
   const togglePlatform = (platform: keyof typeof enabledPlatforms) => {
     setEnabledPlatforms((prev) => ({ ...prev, [platform]: !prev[platform] }));
@@ -61,17 +63,21 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
   };
 
   const handleSubmit = async () => {
-    console.log("Button clicked.")
-    setPosting(true)
+    setPosting(true);
 
     const body = {
       video_url: videoUrl,
-      metadata: metadata
-    }
+      metadata: Object.fromEntries(
+        Object.entries(metadata).filter(([key]) => enabledPlatforms[key as keyof typeof enabledPlatforms])
+      ),
+    };
 
     try {
       const response = await fetch('/api/post', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(body),
       });
 
@@ -80,15 +86,49 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
       }
 
       const data = await response.json();
-      console.log(data)
+      console.log(data);
 
-      setPosting(false);
+      if (data.success) {
+        toast({
+          title: "Upload Successful",
+          description: "Your video has been successfully uploaded.",
+        });
+
+        // Display individual platform results
+        data.results.forEach((result: any) => {
+          if (result.success) {
+            toast({
+              title: `${result.platform} Upload Successful`,
+              description: `Video ID: ${result.result.body.video_id}`,
+              action: (
+                <Button variant="outline" size="sm" asChild>
+                  <a href={result.result.body.watch_url} target="_blank" rel="noopener noreferrer">
+                    View
+                  </a>
+                </Button>
+              ),
+            });
+          } else {
+            toast({
+              variant: "destructive",
+              title: `${result.platform} Upload Failed`,
+              description: result.message,
+            });
+          }
+        });
+      } else {
+        throw new Error(data.message || 'Upload failed');
+      }
     } catch (error) {
       console.error('Error uploading video:', error);
-
+      toast({
+        variant: "destructive",
+        title: "Upload Failed",
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+      });
+    } finally {
       setPosting(false);
     }
-
   };
 
   const platforms: Array<{
