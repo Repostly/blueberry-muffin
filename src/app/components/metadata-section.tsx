@@ -27,6 +27,23 @@ type MetadataType =
   | TikTokMetadataType
   | InstagramMetadataType;
 
+type UploadResult =
+| {
+    platform: string;
+    success: true;
+    result: {
+      body: {
+        video_id: string;
+        watch_url: string;
+      };
+    };
+  }
+| {
+    platform: string;
+    success: false;
+    message: string;
+  };
+
 export function MetadataSection({ videoUrl }: { videoUrl: string }) {
   const [enabledPlatforms, setEnabledPlatforms] = useState({
     youtube: false,
@@ -95,7 +112,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
         });
 
         // Display individual platform results
-        data.results.forEach((result: any) => {
+        data.results.forEach((result: UploadResult) => {
           if (result.success) {
             toast({
               title: `${result.platform} Upload Successful`,
