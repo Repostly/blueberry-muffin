@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
 interface YouTubeMetadataProps {
@@ -7,6 +8,7 @@ interface YouTubeMetadataProps {
     title: string;
     description: string;
     tags: string;
+    privacy_status: string;
   };
   updateMetadata: (field: string, value: string) => void;
 }
@@ -43,6 +45,16 @@ export function YouTubeMetadata({
           onChange={(e) => updateMetadata("tags", e.target.value)}
           placeholder="Enter tags, separated by commas"
         />
+      </div>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="youtube-privacy-status"
+          checked={metadata.privacy_status === "public"}
+          onCheckedChange={(isChecked) =>
+            updateMetadata("privacy_status", isChecked ? "public" : "private")
+          }
+        />
+        <span>{metadata.privacy_status === "public" ? "Public" : "Private"}</span>
       </div>
     </div>
   );

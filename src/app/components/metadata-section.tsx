@@ -19,7 +19,7 @@ interface PlatformMetadataProps<T> {
   updateMetadata: (field: string, value: string) => void;
 }
 
-type YouTubeMetadataType = { title: string; description: string; tags: string };
+type YouTubeMetadataType = { title: string; description: string; tags: string, privacy_status: string };
 type TikTokMetadataType = { caption: string; hashtags: string };
 type InstagramMetadataType = { caption: string; hashtags: string };
 type MetadataType =
@@ -34,7 +34,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
     instagram: false,
   });
   const [metadata, setMetadata] = useState({
-    youtube: { title: "", description: "", tags: "" },
+    youtube: { title: "", description: "", tags: "", privacy_status: "" },
     tiktok: { caption: "", hashtags: "" },
     instagram: { caption: "", hashtags: "" },
   });
