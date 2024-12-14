@@ -7,6 +7,8 @@ import { Switch } from "@/components/ui/switch"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 import { toast } from "@/hooks/use-toast"
+import { providers } from '@/lib/providers' 
+import { generateRandomString, generateCodeChallenge } from '@/lib/utils'
 
 interface SocialMediaAccount {
   id: string
@@ -17,17 +19,22 @@ interface SocialMediaAccount {
 
 const providerConfig = {
   tiktok: {
-    authUrl: 'https://www.tiktok.com/auth/authorize/',
-    client_key: process.env.NEXT_PUBLIC_TIKTOK_CLIENT_KEY,
-    scope: 'user.info.basic,video.list',
+    authUrl: providers.tiktok.authorization,
+    client_key: providers.tiktok.clientId,
+    scope: providers.tiktok.scope,
   },
   youtube: {
-    authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
-    client_id: process.env.NEXT_PUBLIC_YOUTUBE_CLIENT_ID,
-    scope: 'https://www.googleapis.com/auth/youtube.force-ssl',
+    authUrl: providers.youtube.authorization,
+    client_id: providers.youtube.clientId,
+    scope: providers.youtube.scope,
     access_type: "offline",
     prompt: "consent",
   },
+  instagram: {
+    authUrl: providers.instagram.authorization,
+    client_id: providers.instagram.clientId,
+    scope: providers.instagram.scope,
+  }
 };
 
 
@@ -128,6 +135,14 @@ export default function ConnectPage() {
   
       authUrlObject.searchParams.append('redirect_uri', `${window.location.origin}/api/connect/callback/${id}`);
       authUrlObject.searchParams.append('response_type', 'code');
+
+      // Special case: TikTok's code challenge
+      if (id === "tiktok") {
+        const codeVerifier = generateRandomString(100);
+        const codeChallenge = await generateCodeChallenge(codeVerifier);
+        authUrlObject.searchParams.append('code_challenge', codeChallenge);
+        authUrlObject.searchParams.append('code_challenge_method', "S256");
+      }
   
       router.push(authUrlObject.toString());
     }
