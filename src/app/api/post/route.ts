@@ -4,6 +4,7 @@ import connectDB from '@/db/connect';
 import User from '@/models/User';
 import { getSession } from '@/auth/session';
 import { storeTokens } from '@/lib/token-storage';
+import { refreshToken } from '@/lib/refresh-token';
 
 // Define a type for the supported social media platforms
 type SocialMediaPlatform = 'youtube' | 'tiktok' | 'instagram';
@@ -85,13 +86,13 @@ export async function POST(request: NextRequest) {
         continue;
       }
 
-      let { accessToken, refreshToken } = platformData;
+      let { accessToken, refreshToken: refresher } = platformData;
 
       const payload = {
         video_url,
         ...meta,
         access_token: accessToken,
-        refresh_token: refreshToken,
+        refresh_token: refresher,
       };
 
       try {
@@ -102,16 +103,16 @@ export async function POST(request: NextRequest) {
         } else {
           // If Lambda invocation fails, try refreshing the token and retry
           try {
-            const newTokens = await refreshToken(platform as SocialMediaPlatform, refreshToken);
+            const newTokens = await refreshToken(user, platform as SocialMediaPlatform);
             accessToken = newTokens.accessToken;
-            refreshToken = newTokens.refreshToken;
+            refresher = newTokens.refreshToken;
 
             // Update user's tokens in the database
-            await storeTokens(user.email, platform, accessToken, refreshToken);
+            await storeTokens(user.email, platform, accessToken, refresher);
 
             // Retry Lambda invocation with new access token
             payload.access_token = accessToken;
-            payload.refresh_token = refreshToken;
+            payload.refresh_token = refresher;
             const retryResponse = await invokeLambdaFunction(functionName, payload);
 
             if (retryResponse.success) {

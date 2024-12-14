@@ -43,7 +43,7 @@ async function refreshYouTubeToken(refreshToken: string) {
   return response.json();
 }
 
-export async function refreshToken(user: IUser, platform: 'tiktok' | 'youtube') {
+export async function refreshToken(user: IUser, platform: string) {
   const platformData = user.providers?.get(platform);
   if (!platformData || !platformData.refreshToken) {
     throw new Error(`No refresh token found for ${platform}`);
