@@ -1,7 +1,6 @@
 import { VideoUploadForm } from "../components/video-upload-form";
 import { VideoPlayer } from "../components/video-player";
 import { MetadataSection } from "../components/metadata-section";
-import { Header } from "../components/header";
 
 export default async function Dashboard({
   searchParams,

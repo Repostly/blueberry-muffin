@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Instagram, Youtube, Video } from "lucide-react";
 import Link from "next/link";
-import { Header } from "./components/header";
 
 export default function LandingPage() {
   return (

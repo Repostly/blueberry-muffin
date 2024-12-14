@@ -5,18 +5,12 @@ import User from '@/models/User';
 import { getSession } from '@/auth/session';
 import { storeTokens } from '@/lib/token-storage';
 
-type Data = {
-  success: boolean;
-  result?: any;
-  error?: string;
-};
-
 // Define a type for the supported social media platforms
 type SocialMediaPlatform = 'youtube' | 'tiktok' | 'instagram';
 
 const lambda = new AWS.Lambda();
 
-const invokeLambdaFunction = async (functionName: string, payload: any) => {
+const invokeLambdaFunction = async (functionName: string, payload: unknown) => {
   const params = {
     FunctionName: functionName,
     Payload: JSON.stringify(payload),

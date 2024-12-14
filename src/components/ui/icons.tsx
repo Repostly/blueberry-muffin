@@ -1,4 +1,4 @@
-import { Loader2, LogIn } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { Music2, Instagram, Youtube, Twitter, Facebook } from 'lucide-react';
 
 export const Icons = {
