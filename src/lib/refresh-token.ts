@@ -1,5 +1,5 @@
 import { providers } from '@/lib/providers'
-import User from '@/models/User';
+import User, { IUser } from '@/models/User';
 
 async function refreshTikTokToken(refreshToken: string) {
   const response = await fetch(providers.tiktok.token, {
@@ -43,7 +43,7 @@ async function refreshYouTubeToken(refreshToken: string) {
   return response.json();
 }
 
-export async function refreshToken(user: any, platform: 'tiktok' | 'youtube') {
+export async function refreshToken(user: IUser, platform: 'tiktok' | 'youtube') {
   const platformData = user.providers?.get(platform);
   if (!platformData || !platformData.refreshToken) {
     throw new Error(`No refresh token found for ${platform}`);
