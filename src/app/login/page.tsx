@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Icons } from "@/components/ui/icons"
 
 export default function LoginPage() {
+  
   const [isLoading, setIsLoading] = useState(false)
 
   const handleGoogleLogin = async () => {
@@ -41,16 +42,15 @@ export default function LoginPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Login</CardTitle>
-          <CardDescription>Sign in with your email address</CardDescription>
+          <CardDescription>Choose how you login to Repostly</CardDescription>
         </CardHeader>
         <CardContent>
           <Button 
             variant="outline" 
-            className="w-full" 
+            className="w-full mb-4" 
             onClick={handleEmailLogin} 
             disabled={isLoading}
           >
@@ -66,15 +66,7 @@ export default function LoginPage() {
               </>
             )}
           </Button>
-        </CardContent>
-      </Card>
-
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Sign in with your Google account</CardDescription>
-        </CardHeader>
-        <CardContent>
+          
           <Button 
             variant="outline" 
             className="w-full" 
