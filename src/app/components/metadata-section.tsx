@@ -13,6 +13,7 @@ import { YouTubeMetadata } from "./youtube-metadata";
 import { TikTokMetadata } from "./tiktok-metadata";
 import { InstagramMetadata } from "./instagram-metadata";
 import { useToast } from "@/hooks/use-toast";
+import { Logger } from "@/db/logger";
 
 interface PlatformMetadataProps<T> {
   metadata: T;
@@ -45,6 +46,8 @@ type UploadResult =
   };
 
 export function MetadataSection({ videoUrl }: { videoUrl: string }) {
+  const logger = new Logger()
+
   const [enabledPlatforms, setEnabledPlatforms] = useState({
     youtube: false,
     tiktok: false,
@@ -125,6 +128,9 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
                 </Button>
               ),
             });
+            
+            // increment videos uploaded
+            logger.inc('videos')
           } else {
             toast({
               variant: "destructive",
