@@ -3,7 +3,11 @@ import connectDB from '@/db/connect'
 import User from '@/models/User'
 import { getSession } from '@/auth/session'
 
-export async function DELETE(request: NextRequest, { params }: { params: { provider: string } }) {
+type Params = Promise<{
+  provider: string
+}>
+
+export async function DELETE(request: NextRequest, { params }: { params: Params }) {
   // Ensure params are awaited
   const { provider } = await params; // Await params here to avoid the sync access error
 

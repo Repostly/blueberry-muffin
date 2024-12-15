@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -38,7 +39,7 @@ const providerConfig = {
 };
 
 
-export default function ConnectPage() {
+function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -190,4 +191,10 @@ export default function ConnectPage() {
       </div>
     </div>
   )
+}
+
+export default function ConnectPage() {
+  <Suspense>
+    <Page />
+  </Suspense>
 }
