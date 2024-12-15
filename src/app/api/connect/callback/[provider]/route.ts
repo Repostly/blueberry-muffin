@@ -3,7 +3,11 @@ import { providers } from '@/lib/providers'
 import { storeTokens } from '@/lib/token-storage'
 import { getSession } from '@/auth/session';
 
-export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {
+type Params = Promise<{
+  provider: string
+}>
+
+export async function GET(request: NextRequest, { params }: { params: Params }) {
   // Ensure params are awaited
   const { provider } = await params; // Await params here to avoid the sync access error
 
