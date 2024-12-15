@@ -3,13 +3,9 @@ import { providers } from '@/lib/providers'
 import { storeTokens } from '@/lib/token-storage'
 import { getSession } from '@/auth/session';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {
   // Ensure params are awaited
-  const url = new URL(request.url);
-  const provider = url.pathname.split('/').pop(); // Extract the `[provider]` dynamic segment
-  if (!provider) {
-    return NextResponse.json({ error: 'No provider provided' }, { status: 400 })
-  }
+  const { provider } = await params; // Await params here to avoid the sync access error
 
   const providerConfig = providers[provider as keyof typeof providers]
   if (!providerConfig) {
