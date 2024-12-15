@@ -1,2 +1,2 @@
 # blueberry-muffin
-The frontend web app of Repostly.
+The full-stack web app of Repostly.
