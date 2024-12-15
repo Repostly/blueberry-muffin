@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react'
-import { Music2, Instagram, Youtube, Twitter, Facebook } from 'lucide-react';
+import { Music2, Instagram, Youtube, Twitter, Facebook, Mail } from 'lucide-react';
 
 export const Icons = {
   spinner: Loader2,
@@ -28,6 +28,7 @@ export const Icons = {
   youtube: Youtube,
   twitter: Twitter,
   facebook: Facebook,
-  instagram: Instagram
+  instagram: Instagram,
+  mail: Mail
 }
 

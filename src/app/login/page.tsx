@@ -24,8 +24,51 @@ export default function LoginPage() {
     }
   }
 
+  const handleEmailLogin = async () => {
+    setIsLoading(true)
+    try {
+      const result = await signIn('email', { callbackUrl: '/' })
+      if (result?.error) {
+        // Handle error
+        console.error('Login failed:', result.error)
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+          <CardDescription>Sign in with your email address</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button 
+            variant="outline" 
+            className="w-full" 
+            onClick={handleEmailLogin} 
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <>
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              <>
+                <Icons.mail className="mr-2 h-4 w-4" />
+                Sign in with Email
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Login</CardTitle>

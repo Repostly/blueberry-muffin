@@ -22,13 +22,6 @@ The full-stack web app of Repostly.
     npm install
     ```
 
-## Usage
-1. Start the development server:
-    ```sh
-    npm start
-    ```
-2. Open your browser and visit `http://localhost:3000`
-
 ## Contributing
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature-branch`)
@@ -38,6 +31,3 @@ The full-stack web app of Repostly.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contact
-For any inquiries, please contact Ayush at [ayush@example.com](mailto:ayush@example.com).
