@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -150,44 +151,46 @@ export default function ConnectPage() {
   
 
   return (
-    <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-bold mb-6">Connect Your Social Media Accounts</h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {accounts.map((account) => {
-          const IconComponent = Icons[account.icon];
-          const isComingSoon = account.name.includes('Coming Soon');
-          
-          return (
-            <Card key={account.id}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  {IconComponent && <IconComponent className="h-6 w-6" />}
-                  {account.name}
-                </CardTitle>
-                <CardDescription>
-                  {account.connected ? 'Connected' : 'Not connected'}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <Switch
-                    checked={account.connected}
-                    onCheckedChange={() => toggleConnection(account.id)}
-                    disabled={isComingSoon}
-                  />
-                  <Button
-                    variant="outline"
-                    onClick={() => toggleConnection(account.id)}
-                    disabled={isComingSoon}
-                  >
-                    {account.connected ? 'Disconnect' : 'Connect'}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )
-        })}
+    <Suspense>
+      <div className="container mx-auto py-10">
+        <h1 className="text-3xl font-bold mb-6">Connect Your Social Media Accounts</h1>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {accounts.map((account) => {
+            const IconComponent = Icons[account.icon];
+            const isComingSoon = account.name.includes('Coming Soon');
+            
+            return (
+              <Card key={account.id}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {IconComponent && <IconComponent className="h-6 w-6" />}
+                    {account.name}
+                  </CardTitle>
+                  <CardDescription>
+                    {account.connected ? 'Connected' : 'Not connected'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between">
+                    <Switch
+                      checked={account.connected}
+                      onCheckedChange={() => toggleConnection(account.id)}
+                      disabled={isComingSoon}
+                    />
+                    <Button
+                      variant="outline"
+                      onClick={() => toggleConnection(account.id)}
+                      disabled={isComingSoon}
+                    >
+                      {account.connected ? 'Disconnect' : 'Connect'}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
+        </div>
       </div>
-    </div>
+    </Suspense>
   )
 }
