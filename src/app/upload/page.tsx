@@ -2,11 +2,11 @@ import { VideoUploadForm } from "../components/video-upload-form";
 import { VideoPlayer } from "../components/video-player";
 import { MetadataSection } from "../components/metadata-section";
 
-export default async function Dashboard({
-  searchParams,
-}: {
-  searchParams: { videoUrl?: string };
-}) {
+type SearchParams = Promise<{
+  videoUrl?: string
+}>
+
+export default async function Dashboard({ searchParams }: { searchParams: SearchParams }) {
   const { videoUrl } = await searchParams;
 
   return (
