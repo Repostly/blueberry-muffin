@@ -218,7 +218,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
         onClick={handleSubmit}
         disabled={posting || Object.values(enabledPlatforms).every((v) => !v)}
       >
-        {posting ? "Submitting..." : "Submit Metadata"}
+        {posting ? "Reposting..." : "Repost"}
       </Button>
     </div>
   );
