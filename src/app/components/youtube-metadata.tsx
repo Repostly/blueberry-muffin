@@ -7,10 +7,10 @@ interface YouTubeMetadataProps {
   metadata: {
     title: string;
     description: string;
-    tags: string;
+    tags: string[];
     privacy_status: string;
   };
-  updateMetadata: (field: string, value: string) => void;
+  updateMetadata: (field: string, value: string | string[]) => void;
 }
 
 export function YouTubeMetadata({

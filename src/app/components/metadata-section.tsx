@@ -16,10 +16,10 @@ import { useToast } from "@/hooks/use-toast";
 
 interface PlatformMetadataProps<T> {
   metadata: T;
-  updateMetadata: (field: string, value: string) => void;
+  updateMetadata: (field: string, value: string | string[]) => void;
 }
 
-type YouTubeMetadataType = { title: string; description: string; tags: string, privacy_status: string };
+type YouTubeMetadataType = { title: string; description: string; tags: string | string[], privacy_status: string };
 type TikTokMetadataType = { caption: string; hashtags: string };
 type InstagramMetadataType = { caption: string; hashtags: string };
 type MetadataType =
@@ -51,7 +51,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
     instagram: false,
   });
   const [metadata, setMetadata] = useState({
-    youtube: { title: "", description: "", tags: "", privacy_status: "" },
+    youtube: { title: "", description: "", tags: [], privacy_status: "" },
     tiktok: { caption: "", hashtags: "" },
     instagram: { caption: "", hashtags: "" },
   });
@@ -65,7 +65,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
   const updateMetadata = (
     platform: keyof typeof metadata,
     field: string,
-    value: string
+    value: string | string[]
   ) => {
     console.log(`Updating ${platform} - ${field}:`, value); // Debug incoming values
 
@@ -206,7 +206,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
             <AccordionContent>
               <Component
                 metadata={metadata[key as keyof typeof metadata]}
-                updateMetadata={(field: string, value: string) =>
+                updateMetadata={(field: string, value: string | string[]) =>
                   updateMetadata(key as keyof typeof metadata, field, value)
                 }
               />
