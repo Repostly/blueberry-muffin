@@ -6,7 +6,7 @@ type SearchParams = Promise<{
   videoUrl?: string
 }>
 
-export default async function Dashboard({ searchParams }: { searchParams: SearchParams }) {
+export default async function UploadDashboard({ searchParams }: { searchParams: SearchParams }) {
   const { videoUrl } = await searchParams;
 
   return (
