@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 
 export default function SignUpPage() {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [passwordStrength, setPasswordStrength] = useState(0)
@@ -34,6 +34,7 @@ export default function SignUpPage() {
 
     const handleSignUp = () => {
         setIsLoading(true)
+        console.log(password) // Print the password
         setTimeout(() => setIsLoading(false), 2000) // Simulating API call
     }
 
@@ -45,8 +46,8 @@ export default function SignUpPage() {
                     <Input
                         type="text"
                         placeholder="Email"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <div>
                         <Input
