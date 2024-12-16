@@ -194,7 +194,9 @@ function Page() {
 }
 
 export default function ConnectPage() {
-  <Suspense>
-    <Page />
-  </Suspense>
+  return (
+    <Suspense>
+      <Page />
+    </Suspense>
+  )
 }

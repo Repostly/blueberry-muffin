@@ -2,15 +2,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { TagInput } from "./tag-input";
 
 interface YouTubeMetadataProps {
   metadata: {
     title: string;
     description: string;
-    tags: string;
+    tags: string[];
     privacy_status: string;
   };
-  updateMetadata: (field: string, value: string) => void;
+  updateMetadata: (field: string, value: string | string[]) => void;
 }
 
 export function YouTubeMetadata({
@@ -39,11 +40,9 @@ export function YouTubeMetadata({
       </div>
       <div>
         <Label htmlFor="youtube-tags">Tags</Label>
-        <Input
-          id="youtube-tags"
-          value={metadata.tags}
-          onChange={(e) => updateMetadata("tags", e.target.value)}
-          placeholder="Enter tags, separated by commas"
+        <TagInput
+          tags={metadata.tags}
+          updateTags={(tags) => updateMetadata("tags", tags)}
         />
       </div>
       <div className="flex items-center space-x-2">
