@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from 'next/link';
 import Image from 'next/image';
-import { Video, User } from 'lucide-react';
+import { Video, User, Settings } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -76,6 +76,15 @@ export function Header() {
                                 >
                                     <User className="mr-2 h-4 w-4" />
                                     <h1>Connect</h1>
+                                </Link> 
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link
+                                    className="flex flex-row justify-center items-center"
+                                    href="/settings"
+                                >
+                                    <Settings className="mr-2 h-4 w-4" />
+                                    <h1>Settings</h1>
                                 </Link> 
                             </DropdownMenuItem>
                             <DropdownMenuItem onSelect={() => signOut()}>
