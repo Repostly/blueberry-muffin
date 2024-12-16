@@ -26,8 +26,11 @@ interface ProviderData {
 // Define the TypeScript interface for the User model
 export interface IUser extends Document {
   email: string;
+  password: string;
   name: string;
   providers: Map<string, ProviderData>;
+  settings: mongoose.Types.ObjectId;
+  analytics: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -40,14 +43,26 @@ const UserSchema = new Schema<IUser>(
       required: true,
       unique: true,
     },
+    password: {
+      type: String,
+    },
     name: {
       type: String,
-      required: true,
     },
     providers: {
       type: Map,
       of: ProviderSchema, // Use the ProviderSchema for the `providers` field
       default: {},
+    },
+    settings: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Settings',
+    },
+    analytics: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Analytics',
     },
   },
   {
