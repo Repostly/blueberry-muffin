@@ -1,6 +1,6 @@
-import { VideoUploadForm } from "../components/video-upload-form";
-import { VideoPlayer } from "../components/video-player";
-import { MetadataSection } from "../components/metadata-section";
+import { VideoUploadForm } from "./components/video-upload-form";
+import { VideoPlayer } from "./components/video-player";
+import { MetadataSection } from "./components/metadata-section";
 
 type SearchParams = Promise<{
   videoUrl?: string

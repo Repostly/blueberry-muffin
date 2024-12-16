@@ -9,9 +9,9 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { YouTubeMetadata } from "./youtube-metadata";
-import { TikTokMetadata } from "./tiktok-metadata";
-import { InstagramMetadata } from "./instagram-metadata";
+import { YouTubeMetadata } from "../forms/youtube-metadata";
+import { TikTokMetadata } from "../forms/tiktok-metadata";
+import { InstagramMetadata } from "../forms/instagram-metadata";
 import { useToast } from "@/hooks/use-toast";
 import { Logger } from "@/db/logger";
 
@@ -115,7 +115,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
         });
 
         // Display individual platform results
-        data.results.forEach((result: UploadResult) => {
+        data.results.forEach(async (result: UploadResult) => {
           if (result.success) {
             toast({
               title: `${result.platform} Upload Successful`,
@@ -130,7 +130,7 @@ export function MetadataSection({ videoUrl }: { videoUrl: string }) {
             });
             
             // increment videos uploaded
-            logger.inc('videos')
+            await logger.inc('videos')
           } else {
             toast({
               variant: "destructive",
