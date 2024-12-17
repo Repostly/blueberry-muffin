@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import { unique } from 'next/dist/build/utils';
 
 // Define the Provider schema
 const ProviderSchema = new Schema(
@@ -26,10 +27,9 @@ interface ProviderData {
 // Define the TypeScript interface for the User model
 export interface IUser extends Document {
   email: string;
+  password: string;
   name: string;
   providers: Map<string, ProviderData>;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 // Create the User schema
@@ -39,6 +39,10 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
       unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
     },
     name: {
       type: String,

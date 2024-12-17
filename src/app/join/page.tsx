@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 
+
 export default function SignUpPage() {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [passwordStrength, setPasswordStrength] = useState(0)
@@ -34,7 +35,16 @@ export default function SignUpPage() {
 
     const handleSignUp = () => {
         setIsLoading(true)
-        setTimeout(() => setIsLoading(false), 2000) // Simulating API call
+        const base64query = Buffer.from(JSON.stringify({ email: email.toLowerCase(), password: password })).toString('base64');
+        fetch('http://localhost:3000/api/user/create', {
+            method: 'POST',
+            body: base64query,
+        }).then(response => response.json())
+
+        .then(data => {
+            alert(`${data.message}`)
+        })
+        setTimeout(() => setIsLoading(false), 2000)
     }
 
     return (
@@ -45,8 +55,8 @@ export default function SignUpPage() {
                     <Input
                         type="text"
                         placeholder="Email"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <div>
                         <Input
@@ -73,13 +83,13 @@ export default function SignUpPage() {
 
                     <Button 
                         onClick={handleSignUp} 
-                        disabled={isLoading || password !== confirmPassword || passwordStrength < 80} 
+                        disabled={isLoading || password !== confirmPassword || passwordStrength < 100} 
                         className="w-full bg-emerald-500 hover:bg-emerald-600"
                     >
                         {isLoading ? 'Loading...' : 'Sign Up'}
                     </Button>
                 </div>
-                {password !== confirmPassword && (
+                {password !== confirmPassword && confirmPassword && (
                     <p className="mt-2 text-sm text-red-500">Passwords do not match</p>
                 )}
                 <p className="mt-4 text-sm text-gray-600 text-center">
