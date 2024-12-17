@@ -1,15 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
 
 export default function SignUpPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [passwordStrength, setPasswordStrength] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
 
 

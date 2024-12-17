@@ -1,5 +1,4 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-import { unique } from 'next/dist/build/utils';
 
 // Define the Provider schema
 const ProviderSchema = new Schema(

@@ -14,7 +14,7 @@ function generateHash(data: string): string {
         const hash = crypto.createHmac('sha256', seed).update(data).digest('hex');
         return hash;
     } catch (error) {
-        console.error('Error reading seed file or generating hash:');
+        console.error('Error reading seed file or generating hash:', error);
         throw new Error('Failed to generate hash');
     }
 }
@@ -28,4 +28,4 @@ function decodeHash(query: string): string {
     return hash;
 }
 
-export { generateHash };
+export { generateHash, decodeHash };

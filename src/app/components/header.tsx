@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from 'next/link';
 import Image from 'next/image';
-import { Video, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -33,8 +33,8 @@ export function Header() {
                     src="/repostly.png"
                     alt="Repostly"
                     className="h-6 w-6"
-                    width={1200}
-                    height={1200}
+                    width={24}
+                    height={24}
                 />
                 <span className="sr-only">Repostly</span>
             </Link>

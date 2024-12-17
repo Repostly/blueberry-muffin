@@ -26,20 +26,20 @@ export default function LoginPage() {
     }
   }
 
-  const handleEmailLogin = async () => {
-    setIsLoading(true)
-    try {
-      const result = await signIn('email', { callbackUrl: '/' })
-      if (result?.error) {
-        // Handle error
-        console.error('Login failed:', result.error)
-      }
-    } catch (error) {
-      console.error('Login error:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  // const handleEmailLogin = async () => {
+  //   setIsLoading(true)
+  //   try {
+  //     const result = await signIn('email', { callbackUrl: '/' })
+  //     if (result?.error) {
+  //       // Handle error
+  //       console.error('Login failed:', result.error)
+  //     }
+  //   } catch (error) {
+  //     console.error('Login error:', error)
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import User, { IUser } from '@/models/User';
 import {generateHash} from '@/auth/secure/hash';
 import connectDB from '@/db/connect';  
-import { bool } from 'aws-sdk/clients/signer';
 
 await connectDB();
 
