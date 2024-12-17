@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
+import Link from 'next/link'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter  } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 
 export default function LoginPage() {
@@ -51,7 +52,7 @@ export default function LoginPage() {
           <Button 
             variant="outline" 
             className="w-full mb-4" 
-            onClick={handleEmailLogin} 
+            onClick= {() => window.location.href = '/login/email'}
             disabled={isLoading}
           >
             {isLoading ? (
@@ -86,6 +87,15 @@ export default function LoginPage() {
             )}
           </Button>
         </CardContent>
+        <CardFooter className="flex justify-center">
+          <div className="mt-4"></div>
+          <p className="text-sm text-gray-600">
+            No Account?{' '}
+            <Link href="/join" className="text-blue-600 hover:underline">
+              Create one here!
+            </Link>
+          </p>
+        </CardFooter>
       </Card>
     </div>
   )

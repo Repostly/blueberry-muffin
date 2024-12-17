@@ -15,21 +15,27 @@ import {
 
 export function Header() {
     const { data: session, status } = useSession();
-    const [profileImage, setProfileImage] = useState('/placeholder.svg');
+    const [profileImage, setProfileImage] = useState('/repostly.png');
 
     useEffect(() => {
         if (session?.user?.image) {
           setProfileImage(session.user.image);
           console.log(session.user.image)
         } else {
-          setProfileImage('/placeholder.svg'); // Default image
+          setProfileImage('/repostly.png'); // Default image
         }
       }, [session]);
 
     return (
         <header className="px-4 lg:px-6 h-14 flex items-center">
-            <Link className="flex items-center justify-center" href="#">
-                <Video className="h-6 w-6" />
+            <Link className="flex items-center justify-center" href="/">
+                <Image
+                    src="/repostly.png"
+                    alt="Repostly"
+                    className="h-6 w-6"
+                    width={1200}
+                    height={1200}
+                />
                 <span className="sr-only">Repostly</span>
             </Link>
             <nav className="ml-auto flex justify-center items-center gap-4 sm:gap-6">
