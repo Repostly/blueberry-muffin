@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import User, { IUser } from '@/models/User';
 import {generateHash} from '@/auth/secure/hash';
 import connectDB from '@/db/connect';  
+import { bool } from 'aws-sdk/clients/signer';
 
 await connectDB();
 
@@ -20,19 +21,21 @@ export const userExists = async (email: string): Promise<boolean> => {
 };
 
 
-export const createUser = async (mail: string, pass: string): Promise<void> => {
+export const createUser = async (mail: string, pass: string): Promise<boolean> => {
     const name = "hello";
     const email = generateHash(mail);
     const password: string = generateHash(pass);
     const providers = new Map();
 
     try {
-
-        const doc = { email, password, name, providers } as IUser
+        const doc = { email, password, name, providers } as IUser;
         const user = await User.create(doc);
-        
+
+        if (user) {return true}
+
     } catch (error) {
         console.error('Error creating user:', error);
-        throw new Error('Error creating user');
+        return false;
     }
+    return false;
 }

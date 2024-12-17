@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import User from '@/models/User'
 import {userExists, createUser} from '@/db/auth'
+import { create } from 'domain';
 
 
 
@@ -12,11 +12,7 @@ export async function POST(req: Request) {
     console.log(decodedQuery);
 
     let userData;
-    try {
-        userData = JSON.parse(decodedQuery);
-    } catch (error) {
-        userData = eval('(' + decodedQuery + ')');
-    }
+    userData = JSON.parse(decodedQuery);
 
     if (!userData.email) {
         return NextResponse.json({
@@ -33,8 +29,14 @@ export async function POST(req: Request) {
             message: 'This email is already in use'
         });
     }
-    const create_user = await createUser(userData.email, userData.password);
+    const user_creation = await createUser(userData.email, userData.password);
 
+    if (!user_creation) {
+        return NextResponse.json({
+            status: 500,
+            message: 'Error creating user'
+        });
+    }
     
     return NextResponse.json({
         status: 200,
